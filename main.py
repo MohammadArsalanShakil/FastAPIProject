@@ -1,13 +1,13 @@
+
 from fastapi import FastAPI
+from database.database import Base, engine
+from routers import todo
+
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
-
+app.include_router(todo.router, prefix="/todos", tags=["Todos"])
 
 @app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
+def read_root():
+    return {"message": "Welcome to the Enhanced FastAPI Todo App!"}
